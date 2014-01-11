@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
 
                     * series: run a set of blocks in sequential order
                     * parallel: run a set of blocks in parallel
-                    * mapParallel: run a set of blocks in parallel, collecting all the return values
-                    * mapSeries: run a set of blocks in series, collecting all the return values
+                    * mapParallel: runs a block in parallel with every item in an array, collecting all the return values
+                    * mapSeries: runs a block in series with every item in an array, collecting all the return values
                     * repeatUntilSuccess: repeat a block until it succeeds or maxAttempts is reached
                     * waterfall: run a set of blocks in series, passing the return value of a block to the next block
 
