@@ -29,6 +29,16 @@
           success:(void (^)(NSArray *mappedObjects))success
           failure:(void (^)(NSError *error))failure;
 
++ (void)eachParallel:(NSArray *)array
+               block:(eachBlock)block
+             success:(void (^)())success
+             failure:(void (^)(NSError *))failure;
+
++ (void)eachSeries:(NSArray *)array
+             block:(eachBlock)block
+           success:(void (^)())success
+           failure:(void (^)(NSError *))failure;
+
 + (void)repeatUntilSuccess:(block0)block
                maxAttempts:(NSUInteger)maxAttempts
  delayBetweenAttemptsInSec:(double)delayInSec

@@ -233,6 +233,52 @@ typedef void (^testSuccessBlock)();
     }];
 }
 
+// TODO: run sync test also
+- (void)testEachSuccess
+{
+    [self runAsyncTest:^(testSuccessBlock testSuccessBlock) {
+        __block int val = 0;
+        eachBlock block = ^(id obj, successBlock success, failureBlock failure) {
+            NSString *s = obj;
+            val += [s intValue];
+            success();
+        };
+        [Async eachParallel:[NSArray arrayWithObjects:@"1", @"2", @"3", nil]
+                      block:(eachBlock)block
+                    success:^ {
+                        XCTAssertEqual(val, 6, @"Final value wrong");
+                        testSuccessBlock();
+                    }
+                    failure:^(NSError *error) {
+                        XCTFail(@"Should not fail");
+                    }];
+        
+    }];
+}
+
+// TODO: run sync test also
+- (void)testEachFailure
+{
+    [self runAsyncTest:^(testSuccessBlock testSuccessBlock) {
+        __block BOOL failureCalled = NO;
+        eachBlock block = ^(id obj, successBlock success, failureBlock failure) {
+            failure([NSError errorWithDomain:@"testEachFailure" code:123 userInfo:nil]);
+        };
+        [Async eachParallel:[NSArray arrayWithObjects:@"1", @"2", @"3", nil]
+                      block:(eachBlock)block
+                    success:^ {
+                        XCTFail(@"Should not succeed");
+                    }
+                    failure:^(NSError *error) {
+                        XCTAssertEqual(failureCalled, NO, @"Failure already called");
+                        failureCalled = YES;
+                        XCTAssertEqualObjects(error.domain, @"testEachFailure", @"Unknown error domain");
+                        XCTAssertEqual(error.code, 123, @"Unknown error code");
+                        testSuccessBlock();
+                    }];
+    }];
+}
+
 - (void)testRepeatUntilSuccess
 {
     const NSUInteger MAX_ATTEMPTS = 3;

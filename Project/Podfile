@@ -2,5 +2,5 @@ platform :ios
 
 xcodeproj 'AsyncTests/AsyncTests.xcodeproj'
 
-pod "async", :path => "../async.podspec"
+pod "Async", :path => "../Async.podspec"
 

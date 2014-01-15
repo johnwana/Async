@@ -7,6 +7,7 @@
 //
 
 #import "MapBlockEnumerator.h"
+#import "EachBlockEnumerator.h"
 #import "RepeatBlockUntilEnumerator.h"
 #import "WaterfallBlockEnumerator.h"
 #import "Async.h"
@@ -96,11 +97,35 @@
             failure:(void (^)(NSError *))failure
 {
     MapBlockEnumerator *blockEnumerator = [[MapBlockEnumerator alloc] initMapBlock:mapFunction using:array];
-    [Async parallelWithEnumerator:blockEnumerator
-                          success:^{
-                              success(blockEnumerator.results);
-                          }
-                          failure:failure];
+    [self parallelWithEnumerator:blockEnumerator
+                         success:^{
+                             success(blockEnumerator.results);
+                         }
+                         failure:failure];
+}
+
++ (void)eachSeries:(NSArray *)array
+             block:(eachBlock)block
+           success:(void (^)())success
+           failure:(void (^)(NSError *))failure
+{
+    EachBlockEnumerator *blockEnumerator = [[EachBlockEnumerator alloc] initEachBlock:block
+                                                                                using:array];
+    [self seriesWithEnumerator:blockEnumerator
+                       success:success
+                       failure:failure];
+}
+
++ (void)eachParallel:(NSArray *)array
+               block:(eachBlock)block
+             success:(void (^)())success
+             failure:(void (^)(NSError *))failure
+{
+    EachBlockEnumerator *blockEnumerator = [[EachBlockEnumerator alloc] initEachBlock:block
+                                                                                using:array];
+    [self parallelWithEnumerator:blockEnumerator
+                         success:success
+                         failure:failure];
 }
 
 + (void)repeatUntilSuccess:(block0)block
@@ -109,8 +134,12 @@
                    success:(successBlock)success
                    failure:(failureBlock)failure
 {
-    RepeatBlockUntilEnumerator *blockEnumerator = [[RepeatBlockUntilEnumerator alloc] initRepeatBlock:block maxAttempts:maxAttempts delayBetweenAttemptsInSec:delayInSec];
-    [Async seriesWithEnumerator:blockEnumerator success:success failure:failure];
+    RepeatBlockUntilEnumerator *blockEnumerator = [[RepeatBlockUntilEnumerator alloc] initRepeatBlock:block
+                                                                                          maxAttempts:maxAttempts
+                                                                            delayBetweenAttemptsInSec:delayInSec];
+    [self seriesWithEnumerator:blockEnumerator
+                       success:success
+                       failure:failure];
 }
 
 + (void)waterfall:(NSArray *)blocks
@@ -118,12 +147,13 @@
           success:(void (^)(id result))success
           failure:(void (^)(NSError *))failure
 {
-    WaterfallBlockEnumerator *blockEnumerator = [[WaterfallBlockEnumerator alloc] initBlocks:blocks firstParam:firstParam];
-    [Async seriesWithEnumerator:blockEnumerator
-                        success:^{
-                            success(blockEnumerator.result);
-                        }
-                        failure:failure];
+    WaterfallBlockEnumerator *blockEnumerator = [[WaterfallBlockEnumerator alloc] initBlocks:blocks
+                                                                                  firstParam:firstParam];
+    [self seriesWithEnumerator:blockEnumerator
+                       success:^{
+                           success(blockEnumerator.result);
+                       }
+                       failure:failure];
 }
 
 @end

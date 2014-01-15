@@ -1,14 +1,14 @@
 PODS:
-  - async (0.1.0)
+  - Async (0.1.0)
 
 DEPENDENCIES:
-  - async (from `../async.podspec`)
+  - Async (from `../Async.podspec`)
 
 EXTERNAL SOURCES:
-  async:
-    :path: ../async.podspec
+  Async:
+    :path: ../Async.podspec
 
 SPEC CHECKSUMS:
-  async: 7edce2e8b146ad7364acad3758c958aae80ab170
+  Async: ce0c118443371de619226abfb19d3b759683ddef
 
-COCOAPODS: 0.28.0
+COCOAPODS: 0.29.0

@@ -19,4 +19,6 @@ typedef void (^mapSuccessBlock)(id mappedObject);
 typedef void (^mapFailBlock)(NSError *error);
 typedef void (^mapFunction)(id obj, mapSuccessBlock success, mapFailBlock failure);
 
+typedef void (^eachBlock)(id obj, successBlock success, failureBlock failure);
+
 #endif
