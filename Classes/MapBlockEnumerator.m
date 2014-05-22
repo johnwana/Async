@@ -33,7 +33,7 @@
     _index = 0;
     _results = [NSMutableArray arrayWithCapacity:array.count];
     
-    id fillerObj = [[NSObject alloc] init];
+    id fillerObj = [NSNull null];
     for (NSUInteger i = 0; i < array.count; i++) {
         [_results addObject:fillerObj];
     }

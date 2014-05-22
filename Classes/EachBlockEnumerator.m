@@ -13,7 +13,7 @@
 - (id)initEachBlock:(eachBlock)block
               using:(NSArray *)array
 {
-    NSObject *dummyObject = [[NSObject alloc] init];
+    NSObject *dummyObject = [NSNull null];
     block1 mapBlock = ^(id obj, successBlock1 success, failureBlock failure) {
         block(obj, ^{ success(dummyObject); }, failure);
     };
