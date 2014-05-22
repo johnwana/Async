@@ -11,7 +11,7 @@
 
 
 @interface MapBlockEnumerator () {
-    block1 _block;
+    block1 _block1;
     NSArray *_array;
     NSUInteger _index;
     NSMutableArray *_results;
@@ -21,14 +21,14 @@
 
 @implementation MapBlockEnumerator
 
-- (id)initMapBlock:(block1)block using:(NSArray *)array
+- (id)initMapBlock:(block1)block1 using:(NSArray *)array
 {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _block = block;
+    _block1 = block1;
     _array = array;
     _index = 0;
     _results = [NSMutableArray arrayWithCapacity:array.count];
@@ -49,7 +49,7 @@
     } else {
         id obj = [_array objectAtIndex:index];
         return ^(successBlock success, failureBlock failure) {
-            _block(obj, ^(id resultObj) {
+            _block1(obj, ^(id resultObj) {
                 [_results setObject:resultObj atIndexedSubscript:index];
                 success();
             }, failure);

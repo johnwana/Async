@@ -11,11 +11,11 @@
 
 @interface Async : NSObject
 
-+ (void)series:(NSArray *)blocks
++ (void)series:(NSArray *)block0s
        success:(void (^)())success
        failure:(void (^)(NSError *error))failure;
 
-+ (void)parallel:(NSArray *)blocks
++ (void)parallel:(NSArray *)block0s
          success:(void (^)())success
          failure:(void (^)(NSError *error))failure;
 

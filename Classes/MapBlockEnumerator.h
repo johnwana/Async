@@ -13,6 +13,6 @@
 
 @property (nonatomic, readonly) NSArray *results;
 
-- (id)initMapBlock:(block1)block using:(NSArray *)array;
+- (id)initMapBlock:(block1)block1 using:(NSArray *)array;
 
 @end

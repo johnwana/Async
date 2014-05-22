@@ -15,30 +15,30 @@
 
 @implementation Async
 
-+ (void)seriesWithEnumerator:(NSEnumerator *)blocks
++ (void)seriesWithEnumerator:(NSEnumerator *)block0s
        success:(void (^)())success
        failure:(void (^)(NSError *))failure
 {
-    block0 block = [blocks nextObject];
+    block0 block = [block0s nextObject];
     if (!block) {
         success();
     } else {
         block(^() {
-            [self seriesWithEnumerator:blocks success:success failure:failure];
+            [self seriesWithEnumerator:block0s success:success failure:failure];
         }, ^(NSError *error) {
             failure(error);
         });
     }
 }
 
-+ (void)series:(NSArray *)blocks
++ (void)series:(NSArray *)block0s
        success:(void (^)())success
        failure:(void (^)(NSError *))failure
 {
-    [self seriesWithEnumerator:[blocks objectEnumerator] success:success failure:failure];
+    [self seriesWithEnumerator:[block0s objectEnumerator] success:success failure:failure];
 }
 
-+ (void)parallelWithEnumerator:(NSEnumerator *)blocks
++ (void)parallelWithEnumerator:(NSEnumerator *)block0s
                        success:(void (^)())success
                        failure:(void (^)(NSError *))failure
 {
@@ -47,11 +47,11 @@
     __block NSUInteger remainingMapCalls = 0;
     __block NSError *blockError = nil;
     
-    block0 block = [blocks nextObject];
+    block0 block = [block0s nextObject];
     if (!block) {
         success();
     } else {
-        for (; block; block = [blocks nextObject]) {
+        for (; block; block = [block0s nextObject]) {
             remainingMapCalls++;
             dispatch_async(queue, ^{
                 block(
@@ -76,36 +76,32 @@
     }
 }
 
-+ (void)parallel:(NSArray *)blocks
++ (void)parallel:(NSArray *)block0s
          success:(void (^)())success
          failure:(void (^)(NSError *))failure
 {
-    [self parallelWithEnumerator:[blocks objectEnumerator] success:success failure:failure];
+    [self parallelWithEnumerator:[block0s objectEnumerator] success:success failure:failure];
 }
 
 + (void)mapSeries:(NSArray *)array
-      mapFunction:(mapFunction)mapFunction
+      mapFunction:(block1)mapFunction
           success:(void (^)(NSArray *))success
           failure:(void (^)(NSError *))failure
 {
     MapBlockEnumerator *blockEnumerator = [[MapBlockEnumerator alloc] initMapBlock:mapFunction using:array];
     [Async seriesWithEnumerator:blockEnumerator
-                        success:^{
-                            success(blockEnumerator.results);
-                        }
+                        success:^{ success(blockEnumerator.results); }
                         failure:failure];
 }
 
 + (void)mapParallel:(NSArray *)array
-        mapFunction:(mapFunction)mapFunction
+        mapFunction:(block1)mapFunction
             success:(void (^)(NSArray *))success
             failure:(void (^)(NSError *))failure
 {
     MapBlockEnumerator *blockEnumerator = [[MapBlockEnumerator alloc] initMapBlock:mapFunction using:array];
     [self parallelWithEnumerator:blockEnumerator
-                         success:^{
-                             success(blockEnumerator.results);
-                         }
+                         success:^{ success(blockEnumerator.results); }
                          failure:failure];
 }
 

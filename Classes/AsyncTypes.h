@@ -14,11 +14,11 @@ typedef void (^successBlock1)(id obj);
 typedef void (^failureBlock)(NSError *error);
 typedef void (^block0)(successBlock success, failureBlock failure);
 typedef void (^block1)(id obj, successBlock1 success, failureBlock failure);
-
-typedef void (^mapSuccessBlock)(id mappedObject);
-typedef void (^mapFailBlock)(NSError *error);
-typedef void (^mapFunction)(id obj, mapSuccessBlock success, mapFailBlock failure);
-
 typedef void (^eachBlock)(id obj, successBlock success, failureBlock failure);
+
+// TODO: get rid of these legacy function types
+typedef successBlock1 mapSuccessBlock;
+typedef failureBlock mapFailBlock;
+typedef block1 mapFunction;
 
 #endif
