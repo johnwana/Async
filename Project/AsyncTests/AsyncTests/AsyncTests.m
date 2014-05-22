@@ -210,6 +210,25 @@ typedef void (^testSuccessBlock)();
 }
 
 // TODO: run sync test also
+- (void)testEmptyMapSuccess
+{
+    [self runAsyncTest:^(testSuccessBlock testSuccessBlock) {
+        [Async mapParallel:@[]
+               mapFunction:^(id obj, mapSuccessBlock success, mapFailBlock failure) {
+                   success(obj);
+               }
+                   success:^(NSArray *mappedArray) {
+                       XCTAssertEqual(mappedArray.count, 0);
+                       testSuccessBlock();
+                   }
+                   failure:^(NSError *error) {
+                       XCTFail(@"Should not fail");
+                   }
+         ];
+    }];
+}
+
+// TODO: run sync test also
 - (void)testMapFailure
 {
     [self runAsyncTest:^(testSuccessBlock testSuccessBlock) {

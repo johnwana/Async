@@ -47,27 +47,32 @@
     __block NSUInteger remainingMapCalls = 0;
     __block NSError *blockError = nil;
     
-    for (block0 block = [blocks nextObject]; block; block = [blocks nextObject]) {
-        remainingMapCalls++;
-        dispatch_async(queue, ^{
-            block(
-                  ^() {
-                      if (--remainingMapCalls == 0) {
-                          if (blockError) {
-                              failure(blockError);
-                          } else {
-                              success();
+    block0 block = [blocks nextObject];
+    if (!block) {
+        success();
+    } else {
+        for (; block; block = [blocks nextObject]) {
+            remainingMapCalls++;
+            dispatch_async(queue, ^{
+                block(
+                      ^() {
+                          if (--remainingMapCalls == 0) {
+                              if (blockError) {
+                                  failure(blockError);
+                              } else {
+                                  success();
+                              }
                           }
-                      }
-                  },
-                  ^(NSError *error) {
-                      if (--remainingMapCalls == 0) {
-                          failure(error);
-                      } else {
-                          blockError = error;
-                      }
-                  });
-        });
+                      },
+                      ^(NSError *error) {
+                          if (--remainingMapCalls == 0) {
+                              failure(error);
+                          } else {
+                              blockError = error;
+                          }
+                      });
+            });
+        }
     }
 }
 
