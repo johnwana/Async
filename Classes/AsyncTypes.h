@@ -16,7 +16,7 @@ typedef void (^block0)(successBlock success, failureBlock failure);
 typedef void (^block1)(id obj, successBlock1 success, failureBlock failure);
 typedef void (^eachBlock)(id obj, successBlock success, failureBlock failure);
 
-// TODO: get rid of these legacy function types
+// FUTURE: get rid of these legacy function types
 typedef successBlock1 mapSuccessBlock;
 typedef failureBlock mapFailBlock;
 typedef block1 mapFunction;
