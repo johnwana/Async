@@ -22,6 +22,8 @@ Async is a set of functions for working with asynchronous blocks in Objective-C.
 
 * `series`: run a set of blocks in sequential order
 * `parallel`: run a set of blocks in parallel
+* `eachSeries`: runs a block in series with every item in an array
+* `eachParallel`: runs a block in parallel with every item in an array
 * `mapParallel`: runs a block in parallel with every item in an array, collecting all the return values
 * `mapSeries`: runs a block in series with every item in an array, collecting all the return values
 * `repeatUntilSuccess`: repeat a block until it succeeds or maxAttempts is reached
