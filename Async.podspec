@@ -10,6 +10,8 @@ Pod::Spec.new do |s|
 
                     * series: run a set of blocks in sequential order
                     * parallel: run a set of blocks in parallel
+                    * `eachSeries`: runs a block in series with every item in an array
+                    * `eachParallel`: runs a block in parallel with every item in an array
                     * mapParallel: runs a block in parallel with every item in an array, collecting all the return values
                     * mapSeries: runs a block in series with every item in an array, collecting all the return values
                     * repeatUntilSuccess: repeat a block until it succeeds or maxAttempts is reached
@@ -19,7 +21,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/johnwana/Async"
   s.license      = 'MIT'
   s.author       = { "John Wana" => "john@wana.us" }
-  s.source       = { :git => "https://github.com/johnwana/Async.git", :tag => "0.1.0" }
+  s.source       = { :git => "https://github.com/johnwana/Async.git", :tag => "0.2.0" }
 
   s.requires_arc = true
 
